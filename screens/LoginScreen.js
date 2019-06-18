@@ -102,7 +102,7 @@ class LoginScreen extends Component {
         return(
             <View style={styles.container}>
                 <Button
-                    title="Sign In With Google"
+                    title="Sign In/Log In With Google"
                     onPress={() => this.signInWithGoogleAsync()}
                 />
             </View>

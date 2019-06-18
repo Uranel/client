@@ -1,33 +1,51 @@
 import React, { Component } from "react";
-import{ View, Text, StyleSheet, Button, Alert, FlatList, StackNavigator} from "react-native";
+import{ View, Text, StyleSheet, Button, Alert, FlatList, TouchableOpacity} from "react-native";
 import firebase from 'firebase';
 import UserItem from '../components/UserItem';
 import { ListItem } from 'react-native-elements';
 
-const list = [
-    {
-        name: 'Amy Farha',
-        subtitle: 'Vice President'
-    },
-    {
-        name: 'Kim suhanmu',
-        subtitle: 'turttle & crane '
-    },
-]
 
+const UserListItem = ({ user, onPress}) => {
+    return(
+        <TouchableOpacity onPress = {onPress}>
+            <UserItem user = {user} chevron = {true} />
+        </TouchableOpacity>
+    );
+};
 
 
 class DashboardScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            list:[
+                    {
+                        id: 0,
+                        name: 'hohoho',
+                        subtitle: 'ho~~~~~~'
+                    },
+                    {
+                        id: 1,
+                        name: 'Kim suhanmu',
+                        subtitle: 'turttle & crane '
+                    },
+                    {   
+                        id: 2,
+                        name: 'Amy Farha',
+                        avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+                        subtitle: 'Vice President'
+                    },
+                    {
+                        id: 3,
+                        name: 'Chris Jackson',
+                        avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                        subtitle: 'Vice Chairman'
+                    },
+                ]
+        };
+    }
 
-    keyExtractor = (item, index) => index.toString()
-
-    renderItem = ({ item }) => (
-        <ListItem
-          title={item.name}
-          subtitle={item.subtitle}
-          leftAvatar={{ source: { uri: item.avatar_url } }}
-        />
-    )
+    
     renderHeader = () => {
         //View to set in Header
         return (
@@ -61,16 +79,22 @@ class DashboardScreen extends Component {
         return(
             <FlatList 
                 style = {{marginTop: 20}}
-                keyExtractor={this.keyExtractor}
-                data={list}
+                keyExtractor={(item) => `${item.id}`}
+                data={this.state.list}
                 ListHeaderComponent = {this.renderHeader}
                 ItemSeparatorComponent = {this.ListViewItemSeparator}
                 ListFooterComponent={this.renderFooter}
-                renderItem={this.renderItem}
+                renderItem={({item}) => {
+                    return(
+                        <UserListItem user = {item}
+                        onPress={() => Alert.alert(`${item.name} selected`)}
+                    />
+                    );
+                }}
+
             ></FlatList>
         );
     }
-
 
 }
 
